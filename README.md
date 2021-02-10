@@ -1,3 +1,9 @@
+#This fork includes changes for compiling on Ubuntu 20.04 `gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0` and `ns-3.33`
+
+
+
+---
+
 # OpenFlow 1.3 module for ns-3 #
 This is the OFSwitch13 module, which enhances the [ns-3 Network Simulator][ns-3] with [OpenFlow 1.3][ofp13] capabilities, allowing ns-3 users to simulate Software-Defined Networks (SDN). 
 In fact, this module implements the interface for interconnecting the ns-3 simulator to the [OpenFlow 1.3 Software Switch for ns-3][ofs13] (ofsoftswitch13) library. It is the library that, in fact, provides the switch implementation, the library for converting to/from OpenFlow 1.3 wire format, and the dpctl tool for configuring the switch from the console.
