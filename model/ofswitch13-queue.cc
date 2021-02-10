@@ -23,6 +23,7 @@
 #include "ns3/object-vector.h"
 #include "ofswitch13-queue.h"
 #include "queue-tag.h"
+#include "ns3/drop-tail-queue.h"
 
 #undef NS_LOG_APPEND_CONTEXT
 #define NS_LOG_APPEND_CONTEXT \
@@ -37,7 +38,7 @@ TypeId
 OFSwitch13Queue::GetTypeId (void)
 {
   static TypeId tid = TypeId ("ns3::OFSwitch13Queue")
-    .SetParent<Queue<Packet> > ()
+    .SetParent<DropTailQueue<Packet> > ()
     .SetGroupName ("OFSwitch13")
     .AddAttribute ("QueueList",
                    "The list of internal queues.",
@@ -87,7 +88,7 @@ OFSwitch13Queue::Enqueue (Ptr<Packet> packet)
       // Enqueue the packet in this queue too.
       // This is necessary to ensure consistent statistics. Otherwise, when the
       // NetDevice calls the IsEmpty () method, it will return true.
-      DoEnqueue (Tail (), packet);
+      DoEnqueue (end (), packet);
     }
   else
     {
@@ -210,7 +211,7 @@ OFSwitch13Queue::NotifyDequeue (Ptr<Packet> packet)
 
   // Dequeue the packet from this queue too. As we don't know the
   // exactly packet location on this queue, we have to look for it.
-  for (auto it = Head (); it != Tail (); it++)
+  for (auto it = begin (); it != end (); it++)
     {
       if ((*it) == packet)
         {
@@ -228,7 +229,7 @@ OFSwitch13Queue::NotifyRemove (Ptr<Packet> packet)
 
   // Remove the packet from this queue too. As we don't know the
   // exactly packet location on this queue, we have to look for it.
-  for (auto it = Head (); it != Tail (); it++)
+  for (auto it = begin (); it != end (); it++)
     {
       if ((*it) == packet)
         {
